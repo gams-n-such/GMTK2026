@@ -1,17 +1,13 @@
 class_name SmashPlayer
 extends Node3D
 
-@onready var camera_pivot: Node3D = %CameraPivot
-@onready var camera: Camera3D = %Camera3D
-
 signal hit
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _process(delta: float) -> void:
-	pass
-
+	_process_camera(delta)
 
 func _on_hit_occurred(attacker: Node, target: Node) -> void:
 	pass
@@ -19,8 +15,6 @@ func _on_hit_occurred(attacker: Node, target: Node) -> void:
 #region Input
 
 var _last_mouse_direction: int = 0
-
-
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -54,9 +48,7 @@ var _player_rotation : Vector3
 var _camera_rotation : Vector3
 @export var mouse_sensitivity : float = 0.5
 
-var _saved_yaw_input : float
-
-func _process_camera(delta : float) -> void:
+func _consume_mouse_input(delta) -> void:
 	_saved_yaw_input = _input_yaw
 	_mouse_rotation.x += _input_pitch * delta
 	_mouse_rotation.x = clamp(_mouse_rotation.x, MIN_TILT, MAX_TILT)
@@ -64,9 +56,9 @@ func _process_camera(delta : float) -> void:
 	
 	_player_rotation = Vector3(0, _mouse_rotation.y, 0)
 	_camera_rotation = Vector3(_mouse_rotation.x, 0, 0)
-	#
-	#CAMERA_CONTROLLER.transform.basis = Basis.from_euler(_camera_rotation)
-	#CAMERA_CONTROLLER.rotation.z = 0
+	
+	camera_pivot.transform.basis = Basis.from_euler(_camera_rotation)
+	camera_pivot.rotation.z = 0
 	
 	# TODO: revisit
 	global_transform.basis = Basis.from_euler(_player_rotation)
@@ -77,5 +69,28 @@ func _process_camera(delta : float) -> void:
 #endregion
 
 #region Camera
+
+@onready var camera_pivot: Node3D = %CameraPivot
+@onready var camera: Camera3D = %Camera3D
+
+var _saved_yaw_input : float
+
+func _process_camera(delta : float) -> void:
+	_saved_yaw_input = _input_yaw
+	_mouse_rotation.x += _input_pitch * delta
+	_mouse_rotation.x = clamp(_mouse_rotation.x, MIN_TILT, MAX_TILT)
+	_mouse_rotation.y += _input_yaw * delta
+	
+	_player_rotation = Vector3(0, _mouse_rotation.y, 0)
+	_camera_rotation = Vector3(_mouse_rotation.x, 0, 0)
+	
+	camera_pivot.transform.basis = Basis.from_euler(_camera_rotation)
+	camera_pivot.rotation.z = 0
+	
+	# TODO: revisit
+	global_transform.basis = Basis.from_euler(_player_rotation)
+	
+	_input_pitch = 0
+	_input_yaw = 0
 
 #endregion
