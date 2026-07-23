@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c6uqpxfa40845"]
 
 [ext_resource type="Script" uid="uid://c5absqcct10fa" path="res://UI/HUD/hud.gd" id="1_ia7gp"]
+[ext_resource type="PackedScene" uid="uid://bhap6c3ld4428" path="res://UI/HUD/PlayerHealthTracker/dev_player_health_tracker.tscn" id="2_ing8j"]
 
 [node name="HUD" type="Control" unique_id=407136769]
 layout_mode = 3
@@ -23,3 +24,15 @@ offset_bottom = 23.0
 grow_horizontal = 2
 text = "HUD"
 horizontal_alignment = 1
+
+[node name="DevPlayerHealthTracker" parent="." unique_id=1732815039 instance=ExtResource("2_ing8j")]
+layout_mode = 1
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 28.0
+offset_top = 15.0
+offset_right = 100.0
+offset_bottom = 38.0
+grow_horizontal = 1
+grow_vertical = 1

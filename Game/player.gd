@@ -1,16 +1,39 @@
 class_name SmashPlayer
 extends Node3D
 
+var player_state: SmashPlayerState:
+	get:
+		return Game.player_state
+
 signal hit
 
 func _ready() -> void:
+	assert(player_state)
+	_show_hud()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+func _exit_tree() -> void:
+	_hide_hud()
 
 func _process(delta: float) -> void:
 	_process_camera(delta)
 
 func _on_hit_occurred(attacker: Node, target: Node) -> void:
 	pass
+
+#region HUD
+
+@export var hud_scene : PackedScene
+
+func _show_hud() -> void:
+	if hud_scene:
+		var hud := hud_scene.instantiate() as Control
+		Game.canvas_manager.set_layer_content(JamUtils.layer_ui_hud, hud)
+
+func _hide_hud() -> void:
+	Game.canvas_manager.clear_layer(JamUtils.layer_ui_hud)
+
+#endregion
 
 #region Input
 
