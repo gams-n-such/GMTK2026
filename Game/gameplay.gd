@@ -14,9 +14,7 @@ var smashables: Array[Smashable] = []
 var _last_mouse_direction: int = 0
 
 func _ready() -> void:
-	if level_config == null:
-		level_config = Level1Config.new()
-	load_level(level_config)
+	load_level(Game.level_config)
 
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:

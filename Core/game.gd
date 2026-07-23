@@ -22,7 +22,7 @@ func toggle_mouse_cursor() -> void:
 
 @export var default_player_stats : SmashPlayerPreset
 var _player_stats_override : SmashPlayerPreset
-var player_stats : SmashPlayerPreset:
+var starting_player_stats : SmashPlayerPreset:
 	get:
 		if _player_stats_override:
 			return _player_stats_override
@@ -37,6 +37,21 @@ var level_config : SmashLevelConfig:
 			return _level_config_override
 		else:
 			return default_level_config
+
+@export var player_state_scene : PackedScene = null
+var player_state : SmashPlayerState = null
+
+func reset_run() -> void:
+	_player_stats_override = null
+	_level_config_override = null
+	if player_state:
+		player_state.queue_free()
+	player_state = null
+
+func init_run() -> void:
+	player_state = player_state_scene.instantiate() as SmashPlayerState
+	add_child(player_state)
+	player_state.apply_stats(starting_player_stats)
 
 #endregion
 

@@ -11,16 +11,13 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func apply_stats(stats: Resource) -> void:
+func apply_stats(stats: SmashableResource) -> void:
 	if stats == null:
 		return
 
-	if max_health != null:
-		max_health.set_value(stats.get("max_health"))
-	if health != null:
-		health.set_value(stats.get("health"))
-	if damage != null:
-		damage.set_value(stats.get("damage"))
+	max_health.set_value(stats.health)
+	health.set_value(stats.health)
+	damage.set_value(stats.damage)
 
 func calculate_damage(base_amount: float, state: Dictionary = {}) -> float:
 	var multiplier: float = 1.0

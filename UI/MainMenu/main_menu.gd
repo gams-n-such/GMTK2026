@@ -5,6 +5,7 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _on_play_button_pressed() -> void:
+	Game.init_run()
 	Game.start_game()
 
 func _on_credits_button_pressed() -> void:
