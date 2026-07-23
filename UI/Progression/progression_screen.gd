@@ -10,8 +10,10 @@ signal item_purchased
 const arrow : PackedScene = preload("res://UI/Progression/arrow.tscn")
 const game_over_scene: PackedScene = preload("res://UI/GameOver/game_over_screen.tscn")
 
+@onready var point_label: Label = %PointLabel
+
 func _ready() -> void:
-	%PointLabel.text = "Points available: %d" % [points]
+	point_label.text = "Points available: %d" % [points]
 	for item in %Items.get_children():
 		if item is Item:
 			item.connect("trying_to_purchase", _on_item_trying_to_purchase)
@@ -47,9 +49,8 @@ func _on_item_trying_to_purchase(item: Item) -> void:
 				ModifierInfo.TargetType.SPEED:
 					Game.player_state.sensitivity.add_modifier(modifier.mod_info)
 		
-	%PointLabel.text = "Points available: %d" % [points]
+	point_label.text = "Points available: %d" % [points]
 
 
 func _on_back_pressed() -> void:
-	Game.loose()
-	pass # Replace with function body.
+	Game.load_gameplay_scene()

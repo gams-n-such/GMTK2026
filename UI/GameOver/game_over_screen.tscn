@@ -29,8 +29,14 @@ layout_mode = 2
 
 [node name="RestartButton" type="Button" parent="BG/CenterContainer/ButtonsVBox" unique_id=1676492337]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 text = "Restart"
+
+[node name="Progression" type="Button" parent="BG/CenterContainer/ButtonsVBox" unique_id=909459061]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Progression"
 
 [node name="TitleButton" type="Button" parent="BG/CenterContainer/ButtonsVBox" unique_id=1179927656]
 unique_name_in_owner = true
@@ -41,11 +47,6 @@ text = "Quit to Title"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Quit to Desktop"
-
-[node name="Progression" type="Button" parent="BG/CenterContainer/ButtonsVBox" unique_id=909459061]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Progression"
 
 [node name="WinText" type="Label" parent="." unique_id=1649415750]
 unique_name_in_owner = true
@@ -83,6 +84,6 @@ text = "You Loose"
 horizontal_alignment = 1
 
 [connection signal="pressed" from="BG/CenterContainer/ButtonsVBox/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="BG/CenterContainer/ButtonsVBox/Progression" to="." method="_on_progression_pressed"]
 [connection signal="pressed" from="BG/CenterContainer/ButtonsVBox/TitleButton" to="." method="_on_title_button_pressed"]
 [connection signal="pressed" from="BG/CenterContainer/ButtonsVBox/QuitButton" to="." method="_on_quit_button_pressed"]
-[connection signal="pressed" from="BG/CenterContainer/ButtonsVBox/Progression" to="." method="_on_progression_pressed"]

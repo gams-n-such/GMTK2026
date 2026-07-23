@@ -83,7 +83,7 @@ size_flags_horizontal = 3
 [node name="Back" type="Button" parent="VBoxContainer/Info/HBoxContainer" unique_id=1815980857]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Back to menu"
+text = "Next Round"
 
 [node name="Items" type="Control" parent="VBoxContainer" unique_id=576033756]
 unique_name_in_owner = true
