@@ -25,3 +25,5 @@ metadata/_custom_type_script = "uid://d23my1rvaun41"
 unique_name_in_owner = true
 script = ExtResource("2_dr5hc")
 metadata/_custom_type_script = "uid://d23my1rvaun41"
+
+[connection signal="value_changed" from="Health" to="." method="_on_health_value_changed"]

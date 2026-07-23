@@ -5,6 +5,9 @@ extends Node3D
 @onready var health: SimpleAttribute = %Health
 @onready var damage: SimpleAttribute = %Damage
 
+signal destroyed(target: Smashable)
+var _destroyed : bool = false
+
 func _ready() -> void:
 	pass
 
@@ -36,5 +39,11 @@ func _on_hit_occurred(attacker: Node, target: Node) -> void:
 		apply_damage(self_damage)
 
 func take_damage(amount: float) -> void:
-	if health != null:
-		health.add(-amount)
+	health.add(-amount)
+
+func _on_health_value_changed(attribute: Attribute, new_value: float, old_value: float) -> void:
+	if not _destroyed:
+		print("Smashable HP left: %f" % [new_value])
+		if new_value <= 0.0:
+			_destroyed = true
+			destroyed.emit(self)

@@ -40,3 +40,7 @@ func _on_hit_occurred(attacker: Node, target: Node) -> void:
 func take_damage(amount: float) -> void:
 	if health != null:
 		health.add(-amount)
+
+
+func _on_health_value_changed(attribute: Attribute, new_value: float, old_value: float) -> void:
+	print("Player HP left: %f" % [new_value])

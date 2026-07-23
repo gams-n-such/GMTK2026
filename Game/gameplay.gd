@@ -9,9 +9,8 @@ signal hit_occurred(attacker: Node, target: Node)
 var player_state: SmashPlayerState:
 	get:
 		return Game.player_state
-		
+
 var smashables: Array[Smashable] = []
-var _last_mouse_direction: int = 0
 
 func _ready() -> void:
 	assert(smashable_scene)
@@ -21,6 +20,10 @@ func _ready() -> void:
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
 	pass
+	
+#region Input
+
+var _last_mouse_direction: int = 0
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -36,6 +39,8 @@ func _input(event: InputEvent) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
 		Game.open_pause_menu()
+
+#endregion
 
 func load_level(config: SmashLevelConfig) -> void:
 	if config == null:
@@ -60,6 +65,7 @@ func spawn_smashable(smashable_resource: SmashableResource) -> void:
 	if smashable != null:
 		smashable.apply_stats(smashable_resource)
 		self.hit_occurred.connect(smashable._on_hit_occurred)
+		smashable.destroyed.connect(self._on_smashable_destroyed)
 		smashables.append(smashable)
 
 func apply_single_hit() -> void:
@@ -71,3 +77,9 @@ func apply_single_hit() -> void:
 		return
 
 	hit_occurred.emit(player_state, target_smashable)
+
+func _on_smashable_destroyed(target: Smashable) -> void:
+	smashables.erase(target)
+	if target:
+		target.queue_free()
+		print("Smashables left: %d" % [smashables.size()])
