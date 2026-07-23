@@ -55,6 +55,8 @@ func init_run() -> void:
 	add_child(player_state)
 	player_state.apply_stats(starting_player_stats)
 
+@export var face_renderer : FaceRenderer = null
+
 #endregion
 
 #region Pause

@@ -2,10 +2,12 @@
 
 [ext_resource type="Script" uid="uid://dydffqxmsh78n" path="res://Game/player.gd" id="1_kwoj6"]
 [ext_resource type="PackedScene" uid="uid://c6uqpxfa40845" path="res://UI/HUD/hud.tscn" id="2_h4tjw"]
+[ext_resource type="PackedScene" uid="uid://bt4yv0wn4lugx" path="res://Game/FaceCamera/face_renderer.tscn" id="3_xhrf0"]
 
 [node name="Player" type="Node3D" unique_id=1978419293]
 script = ExtResource("1_kwoj6")
 hud_scene = ExtResource("2_h4tjw")
+face_renderer_scene = ExtResource("3_xhrf0")
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=418279374]
 unique_name_in_owner = true
