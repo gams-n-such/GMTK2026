@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://kp4gc6gequll" path="res://Game/gameplay.tscn" id="3_lqrbg"]
 [ext_resource type="PackedScene" uid="uid://3lueexl8umks" path="res://Game/player_state.tscn" id="4_gwpo4"]
 [ext_resource type="PackedScene" uid="uid://mbpwhjgv7obw" path="res://UI/GameOver/game_over_screen.tscn" id="4_jcax3"]
+[ext_resource type="Resource" uid="uid://bi5av7hk5w4pt" path="res://Data/Player/progression_config.tres" id="4_qe6tj"]
 [ext_resource type="PackedScene" uid="uid://bp4x2yq8aafff" path="res://UI/Progression/progression_screen.tscn" id="9_4qclw"]
 
 [node name="Game" type="Node" unique_id=736238743]
@@ -18,6 +19,7 @@ default_camera_layers = 1
 editor_camera_layers = 524288
 default_player_stats = ExtResource("2_j36f3")
 default_level_config = ExtResource("3_gwpo4")
+progression_config = ExtResource("4_qe6tj")
 player_state_scene = ExtResource("4_gwpo4")
 title_scene = ExtResource("2_htkch")
 gameplay_scene = ExtResource("3_lqrbg")

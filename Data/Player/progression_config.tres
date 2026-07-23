@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="SmashProgressionConfig" format=3 uid="uid://bi5av7hk5w4pt"]
+
+[ext_resource type="Script" uid="uid://drdarr315r058" path="res://Game/Progression/attribute_progression_info.gd" id="1_37fus"]
+[ext_resource type="Script" uid="uid://dkk60tjlf00pe" path="res://Game/Progression/progression_config.gd" id="2_3kyeq"]
+
+[resource]
+script = ExtResource("2_3kyeq")
+metadata/_custom_type_script = "uid://dkk60tjlf00pe"

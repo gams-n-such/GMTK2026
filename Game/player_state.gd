@@ -7,6 +7,11 @@ extends Node
 @onready var sensitivity: DynamicAttribute = %Sensitivity
 @onready var points: SimpleAttribute = %Points
 
+var progression_config : SmashProgressionConfig:
+	get:
+		return Game.progression_config
+var progression_data : ProgressionSaveData = ProgressionSaveData.new()
+
 func _ready() -> void:
 	pass
 

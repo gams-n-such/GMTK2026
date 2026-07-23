@@ -38,6 +38,8 @@ var level_config : SmashLevelConfig:
 		else:
 			return default_level_config
 
+@export var progression_config : SmashProgressionConfig
+
 @export var player_state_scene : PackedScene = null
 var player_state : SmashPlayerState = null
 

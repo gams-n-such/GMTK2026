@@ -1,3 +1,4 @@
+# TODO: delete
 extends Resource
 class_name ModifierInfo
 
