@@ -74,21 +74,29 @@ var flip_mouse_y : bool = false
 var _mouse_rotation : Vector3
 var _player_rotation : Vector3
 
-var mouse_sensitivity : float:
-	get:
-		return player_state.sensitivity.value
+var mouse_sensitivity : float = 1.0
 
 var min_neck_position : float = 0.0
 @export var max_neck_position : float = 100.0
 var neck_position : float = 0.0
+var neck_rise_progress : float:
+	get:
+		return remap(neck_position, min_neck_position, max_neck_position, 0.0, 1.0)
+var neck_tilt : float:
+	get:
+		return remap(neck_position, min_neck_position, max_neck_position, MIN_TILT, MAX_TILT)
 
 var _neck_velocity : float = 0.0
 var _neck_acceleration : float = 0.0
 @export var neck_speed : float = 10.0
-# WIP, do not use
-var use_acceleration : bool = false
-var neck_acceleration_rate : float = 1.0
-var neck_deceleration_rate : float = .8
+@export var neck_fall_sensitivity : Curve
+@export var neck_rise_sensitivity : Curve
+
+func get_sensitivity_curve(direction : float) -> Curve:
+	if direction > 0:
+		return neck_rise_sensitivity
+	else:
+		return neck_fall_sensitivity
 
 var neck_strike_amplitude : float = 0.0
 
@@ -98,13 +106,8 @@ func _consume_mouse_input(delta : float) -> void:
 	_mouse_rotation.y += _input_yaw * delta
 	_mouse_rotation.y = clamp(_mouse_rotation.y, MIN_TURN, MAX_TURN)
 	
-	if use_acceleration:
-		_neck_acceleration = move_toward(_neck_acceleration, 0.0, neck_deceleration_rate * delta)
-		_neck_acceleration += neck_acceleration_rate * _input_pitch
-		_neck_velocity += _neck_acceleration * delta
-	else:
-		_neck_velocity = neck_speed * _input_pitch
-	
+	var sensitivity_curve := get_sensitivity_curve(_input_pitch)
+	_neck_velocity = neck_speed * _input_pitch * sensitivity_curve.sample_baked(neck_rise_progress)
 	
 	var neck_pos_unclamped := neck_position + _neck_velocity * delta
 	neck_position = clamp(neck_pos_unclamped, min_neck_position, max_neck_position)
@@ -140,9 +143,7 @@ func _consume_mouse_input(delta : float) -> void:
 var _camera_rotation : Vector3
 
 func _process_camera(delta : float) -> void:
-	var tilt := remap(neck_position, min_neck_position, max_neck_position, MIN_TILT, MAX_TILT)
-	
-	_camera_rotation = Vector3(tilt, 0, 0)
+	_camera_rotation = Vector3(neck_tilt, 0, 0)
 	
 	camera_pivot.transform.basis = Basis.from_euler(_camera_rotation)
 	camera_pivot.rotation.z = 0

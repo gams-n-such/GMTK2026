@@ -4,6 +4,6 @@ extends Resource
 @export var display_name: String = "Base Player"
 @export var max_health: float = 100
 @export var damage: float = 20
-@export var sensitivity: float = 1
-@export var points: int = 100
-@export var initial_time: float = 32767.0
+@export_storage var sensitivity: float = 1
+@export var points: int = 0
+@export var initial_time: float = 60
