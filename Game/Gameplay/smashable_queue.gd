@@ -33,11 +33,11 @@ var _active_tweener : Tween = null
 func advance_queue() -> void:
 	if _active_tweener:
 		return
-	_trash_smashables.push_back(active_smashables.pop_front())
 	_active_tweener = get_tree().create_tween()
-	_active_tweener.tween_await(get_tree().create_timer(queue_advance_delay).timeout)
+	_active_tweener.tween_interval(queue_advance_delay)
 	_active_tweener.tween_property(queue_root, "position", queue_root.position + Vector3.RIGHT * queue_spacing, queue_advance_time).set_trans(queue_tween_transition).set_ease(queue_tween_easing)
 	await _active_tweener.finished
+	_trash_smashables.push_back(active_smashables.pop_front())
 	_active_tweener = null
 	_cleanup_trash()
 
