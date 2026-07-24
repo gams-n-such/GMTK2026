@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dl08tjm2q1flu"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_80nsd"]
+albedo_color = Color(0.65717745, 0.4138746, 0.14799076, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_80nsd"]
+material = SubResource("StandardMaterial3D_80nsd")
+
+[node name="DefaultHat" type="Node3D" unique_id=289181500]
+
+[node name="HatMeshPlaceholder" type="MeshInstance3D" parent="." unique_id=824504588]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0.33, 0)
+mesh = SubResource("TorusMesh_80nsd")

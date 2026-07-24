@@ -24,8 +24,12 @@ const CAMERA_DEPTH_OFFSET := -0.15
 @export var camera_movement_enabled : bool = true
 #endregion
 
-@onready var head: MeshInstance3D = %HeadPlaceholder
+@onready var head_pivot: Node3D = %HeadPivot
+@onready var head_mesh: MeshInstance3D = %HeadMeshPlaceholder
+@onready var hat_socket: Node3D = %HatSocket
 @onready var camera: Camera3D = %Camera
+
+var upgraded_hat := preload("res://Assets/Hats/UpgradedHat.tscn").instantiate() as Node3D
 
 var _head_rest_position: Vector3
 var _target_position: Vector3
@@ -35,13 +39,14 @@ var _camera_target_position: Vector3
 var _camera_rest_rotation: Vector3
 
 func _ready() -> void:
-	_head_rest_position = head.position
+	_head_rest_position = head_pivot.position
 	_camera_rest_position = camera.position
 	_camera_target_position = _camera_rest_position
 	_camera_rest_rotation = camera.rotation
+	_init_hat()
 
 func _process(delta: float) -> void:
-	head.position = head.position.lerp(_target_position, delta * HEAD_POSITION_INTERPOLATION_SPEED)
+	head_pivot.position = head_pivot.position.lerp(_target_position, delta * HEAD_POSITION_INTERPOLATION_SPEED)
 	if camera_movement_enabled :
 		camera.position = camera.position.lerp(
 			_camera_target_position,
@@ -49,9 +54,9 @@ func _process(delta: float) -> void:
 			)
 
 func set_head_color(color: Color) -> void:
-	var material := head.get_active_material(0).duplicate()
+	var material := head_mesh.get_active_material(0).duplicate()
 	material.albedo_color = color
-	head.set_surface_override_material(0, material)
+	head_mesh.set_surface_override_material(0, material)
 
 func set_head_rotation(pitch: float, yaw: float) -> void:
 	var head_pitch : float = clamp(
@@ -64,8 +69,8 @@ func set_head_rotation(pitch: float, yaw: float) -> void:
 		-MAX_HEAD_YAW,
 		MAX_HEAD_YAW
 		)
-	head.rotation.x = -head_pitch
-	head.rotation.y = head_yaw
+	head_pivot.rotation.x = -head_pitch
+	head_pivot.rotation.y = head_yaw
 	var lean := head_pitch / MAX_HEAD_PITCH
 	_target_position = _head_rest_position + Vector3(
 		0.0,
@@ -84,3 +89,19 @@ func set_head_rotation(pitch: float, yaw: float) -> void:
 		lean * CAMERA_VERTICAL_OFFSET,
 		lean * CAMERA_DEPTH_OFFSET
 		)
+
+func set_hat(hat_node: Node3D) -> void:
+	if hat_node == null:
+		return
+	for child in hat_socket.get_children():
+		child.queue_free()
+	var hat := hat_node.get_child(0) as MeshInstance3D
+	hat.position.y = 0.33
+	hat.scale.x = 0.6
+	hat.scale.y = 0.6
+	hat.scale.z = 0.6
+	hat_socket.add_child(hat_node)
+
+func _init_hat() -> void:
+	if Game.player_state.max_health.value > 100:
+		set_hat(upgraded_hat)
