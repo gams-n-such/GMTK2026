@@ -4,7 +4,7 @@ extends Control
 
 signal purchase_requested(source: ProgressionLeafControl)
 
-const arrow : PackedScene = preload("res://UI/Progression/arrow.tscn")
+const arrow : PackedScene = preload("res://UI/Progression/Tree/arrow.tscn")
 
 func _ready() -> void:
 	for leaf in get_children():
