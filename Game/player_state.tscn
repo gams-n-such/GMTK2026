@@ -10,21 +10,25 @@ script = ExtResource("1_uc0nm")
 [node name="MaxHealth" type="Node" parent="." unique_id=1552078781]
 unique_name_in_owner = true
 script = ExtResource("3_dr5hc")
+tag = 2
 metadata/_custom_type_script = "uid://d23my1rvaun41"
 
 [node name="Health" type="Node" parent="." unique_id=1414637548]
 unique_name_in_owner = true
 script = ExtResource("3_dr5hc")
+tag = 3
 metadata/_custom_type_script = "uid://d23my1rvaun41"
 
 [node name="Damage" type="Node" parent="." unique_id=1130783329]
 unique_name_in_owner = true
 script = ExtResource("3_dr5hc")
+tag = 1
 metadata/_custom_type_script = "uid://d23my1rvaun41"
 
 [node name="Sensitivity" type="Node" parent="." unique_id=133183902]
 unique_name_in_owner = true
 script = ExtResource("3_dr5hc")
+tag = 4
 metadata/_custom_type_script = "uid://d23my1rvaun41"
 
 [node name="Points" type="Node" parent="." unique_id=2033539988]

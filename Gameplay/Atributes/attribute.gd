@@ -4,7 +4,7 @@
 class_name Attribute
 extends Node
 
-enum Tag { NONE, DAMAGE, MAX_HEALTH, HEALTH, SPEED }
+enum Tag { NONE, DAMAGE, MAX_HEALTH, HEALTH, SPEED, TIME, REWARD }
 @export var tag : Tag = Tag.NONE
 
 # Emitted whenever attribute value changes

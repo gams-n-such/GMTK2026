@@ -17,21 +17,25 @@ script = ExtResource("1_tm57f")
 [node name="MaxHealth" type="Node" parent="." unique_id=457779434]
 unique_name_in_owner = true
 script = ExtResource("2_jafkp")
+tag = 2
 metadata/_custom_type_script = "uid://d23my1rvaun41"
 
 [node name="Health" type="Node" parent="." unique_id=457779435]
 unique_name_in_owner = true
 script = ExtResource("2_jafkp")
+tag = 3
 metadata/_custom_type_script = "uid://d23my1rvaun41"
 
 [node name="Damage" type="Node" parent="." unique_id=457779436]
 unique_name_in_owner = true
 script = ExtResource("2_jafkp")
+tag = 1
 metadata/_custom_type_script = "uid://d23my1rvaun41"
 
 [node name="Reward" type="Node" parent="." unique_id=1097442839]
 unique_name_in_owner = true
 script = ExtResource("2_jafkp")
+tag = 6
 
 [node name="PlaceholderMesh" type="MeshInstance3D" parent="." unique_id=1640398661]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25177848, 0)
