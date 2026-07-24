@@ -45,7 +45,7 @@ func take_damage(amount: float) -> void:
 
 func _on_health_value_changed(attribute: Attribute, new_value: float, old_value: float) -> void:
 	if not _destroyed:
-		print("Smashable HP left: %f" % [new_value])
+		#print("Smashable HP left: %f" % [new_value])
 		if new_value <= 0.0:
 			_destroyed = true
 			destroyed.emit(self)
