@@ -11,7 +11,7 @@ func _ready() -> void:
 	assert(player_state)
 	_show_hud()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	neck_position = max_neck_position
+	neck_position = remap(0.0, MAX_TILT, MIN_TILT, max_neck_position, min_neck_position)
 	neck_strike_amplitude = neck_position
 
 func _exit_tree() -> void:
@@ -59,7 +59,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 const MIN_TILT = deg_to_rad(-90)
-const MAX_TILT = deg_to_rad(10)
+const MAX_TILT = deg_to_rad(30)
 
 const MIN_TURN = deg_to_rad(-20)
 const MAX_TURN = deg_to_rad(20)
@@ -69,12 +69,12 @@ var _input_yaw : float
 var _input_pitch : float
 
 var flip_mouse_x : bool = false
-var flip_mouse_y : bool = false
+var flip_mouse_y : bool = true
 
 var _mouse_rotation : Vector3
 var _player_rotation : Vector3
 
-var mouse_sensitivity : float = 1.0
+@export var mouse_sensitivity : float = .5
 
 var min_neck_position : float = 0.0
 @export var max_neck_position : float = 100.0
