@@ -30,6 +30,7 @@ func apply_stats(stats: SmashPlayerPreset) -> void:
 	health.set_value(stats.max_health)
 	damage.set_value(stats.damage)
 	sensitivity.set_value(stats.sensitivity)
+	points.set_value(stats.points)
 	initial_time.set_value(stats.initial_time)
 
 func calculate_damage(base_amount: float, state: Dictionary = {}) -> float:

@@ -34,6 +34,8 @@ metadata/_custom_type_script = "uid://d23my1rvaun41"
 [node name="Points" type="Node" parent="." unique_id=2033539988]
 unique_name_in_owner = true
 script = ExtResource("2_dr5hc")
+_starting_value = 0.0
+tag = 6
 
 [node name="InitialTime" type="Node" parent="." unique_id=1248794690]
 unique_name_in_owner = true
