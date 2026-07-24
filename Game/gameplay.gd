@@ -10,8 +10,9 @@ var player_state: SmashPlayerState:
 	get:
 		return Game.player_state
 
-var smashables: Array[Smashable] = []
 @onready var timer := %GameTimer as GameTimer
+@onready var spawned_queue: SmashQueue = %SmashableQueue
+var smashables: Array[SmashableResource] = []
 
 func _ready() -> void:
 	assert(smashable_scene)
@@ -42,7 +43,7 @@ func apply_single_hit(magnitude: float) -> void:
 	if player_state == null or smashables.is_empty():
 		return
 
-	var target_smashable: Smashable = smashables[0]
+	var target_smashable: Smashable = spawned_queue.current_smashable
 	if target_smashable == null:
 		return
 
@@ -50,10 +51,9 @@ func apply_single_hit(magnitude: float) -> void:
 
 func _on_smashable_destroyed(target: Smashable) -> void:
 	Game.player_state.points.add(target.reward.value)
-	smashables.erase(target)
-	if target:
-		target.queue_free()
-		print("Smashables left: %d" % [smashables.size()])
+	queue_smashables(1)
+	spawned_queue.advance_queue()
+	print("Smashables left: %d spawned, %d queued" % [spawned_queue.active_smashables.size(), smashables.size()])
 
 #endregion
 
@@ -63,27 +63,21 @@ func load_level(config: SmashLevelConfig) -> void:
 	if config == null:
 		return
 
-	for child in smashables:
-		if child is Node:
-			child.queue_free()
-
-	player_state = null
 	smashables.clear()
 
 	for pool in config.pools:
 		for idx in range(pool.count):
-			spawn_smashable(pool.smashable)
+			smashables.append(pool.smashable)
+	queue_smashables(spawned_queue.queue_size)
 
-func spawn_smashable(smashable_resource: SmashableResource) -> void:
-	if smashable_resource == null:
-		return
+func _on_smashable_queue_smashable_spawned(smashable: Smashable) -> void:
+	self.hit_occurred.connect(smashable._on_hit_occurred)
+	smashable.destroyed.connect(self._on_smashable_destroyed)
 
-	var smashable := smashable_scene.instantiate() as Smashable
-	add_child(smashable)
-	if smashable != null:
-		smashable.apply_stats(smashable_resource)
-		self.hit_occurred.connect(smashable._on_hit_occurred)
-		smashable.destroyed.connect(self._on_smashable_destroyed)
-		smashables.append(smashable)
+func queue_smashables(count : int = 1) -> void:
+	for idx in range(count):
+		if smashables.is_empty():
+			return
+		spawned_queue.spawn_to_queue(smashables.pop_front())
 
 #endregion

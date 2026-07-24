@@ -1,6 +1,8 @@
 class_name Smashable
 extends Node3D
 
+@export var data : SmashableResource = null
+
 @onready var max_health: SimpleAttribute = %MaxHealth
 @onready var health: SimpleAttribute = %Health
 @onready var damage: SimpleAttribute = %Damage
@@ -13,15 +15,15 @@ var _view : Node3D = null
 @onready var placeholder_mesh: MeshInstance3D = $PlaceholderMesh
 
 func _ready() -> void:
+	apply_stats(data)
+	# TODO: implement SmashableViews
 	_view = placeholder_mesh
 
 func _process(delta: float) -> void:
 	pass
 
 func apply_stats(stats: SmashableResource) -> void:
-	if stats == null:
-		return
-
+	assert(stats)
 	max_health.set_value(stats.health)
 	health.set_value(stats.health)
 	damage.set_value(stats.damage)

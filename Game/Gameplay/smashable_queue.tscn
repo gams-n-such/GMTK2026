@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://g2dyfrstvyyx"]
+
+[ext_resource type="Script" uid="uid://blxetd8f1td4" path="res://Game/Gameplay/smashable_queue.gd" id="1_fjtty"]
+
+[node name="SmashableQueue" type="Node3D" unique_id=334214445]
+script = ExtResource("1_fjtty")
+
+[node name="QueueRoot" type="Node3D" parent="." unique_id=1774139471]
+unique_name_in_owner = true
