@@ -10,7 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://3lueexl8umks" path="res://Game/player_state.tscn" id="4_gwpo4"]
 [ext_resource type="PackedScene" uid="uid://mbpwhjgv7obw" path="res://UI/GameOver/game_over_screen.tscn" id="4_jcax3"]
 [ext_resource type="Resource" uid="uid://bi5av7hk5w4pt" path="res://Data/Player/progression_config.tres" id="4_qe6tj"]
+[ext_resource type="Resource" uid="uid://cwwwdw1dr2li4" path="res://Data/Combo/combo_system_config.tres" id="5_74v2q"]
 [ext_resource type="PackedScene" uid="uid://bp4x2yq8aafff" path="res://UI/Progression/progression_screen.tscn" id="9_4qclw"]
+[ext_resource type="Script" uid="uid://dcmxkp5rre3ot" path="res://Game/Combo/combo_manager.gd" id="13_j0bao"]
 
 [node name="Game" type="Node" unique_id=736238743]
 process_mode = 3
@@ -21,6 +23,7 @@ default_player_stats = ExtResource("2_j36f3")
 default_level_config = ExtResource("3_gwpo4")
 progression_config = ExtResource("4_qe6tj")
 player_state_scene = ExtResource("4_gwpo4")
+combo_config = ExtResource("5_74v2q")
 title_scene = ExtResource("2_htkch")
 gameplay_scene = ExtResource("3_lqrbg")
 pause_menu_scene = ExtResource("3_52drc")
@@ -34,3 +37,8 @@ layer = 55
 
 [node name="Menu" type="CanvasLayer" parent="CanvasManager" unique_id=254975533]
 layer = 100
+
+[node name="ComboManager" type="Node" parent="." unique_id=1239443732]
+unique_name_in_owner = true
+script = ExtResource("13_j0bao")
+metadata/_custom_type_script = "uid://dcmxkp5rre3ot"

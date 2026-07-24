@@ -25,6 +25,8 @@ func _ready() -> void:
 	timer.initial_time = player_state.initial_time.value
 	timer.reset()
 	timer.start()
+	
+	Game.combo_manager.decay_started = true
 
 func _on_timer_depleted() -> void:
 	Game.loose()
@@ -40,6 +42,7 @@ func _on_player_hit(magnitude: float) -> void:
 
 func apply_single_hit(magnitude: float) -> void:
 	player.face_renderer.set_head_color(Color.YELLOW)
+	Game.combo_manager.add_combo()
 	if player_state == null or smashables.is_empty():
 		return
 
