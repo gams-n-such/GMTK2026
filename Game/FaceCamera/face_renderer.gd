@@ -1,24 +1,52 @@
 class_name FaceRenderer
 extends SubViewport
 
+
+#region face movement constants
+
 const HEAD_PITCH_MULTIPLIER := 0.6
 const HEAD_YAW_MULTIPLIER := 0.4
 const MAX_HEAD_PITCH := deg_to_rad(60)
 const MAX_HEAD_YAW := deg_to_rad(45)
 const HEAD_POSITION_INTERPOLATION_SPEED := 8.0
 const HEAD_LEAN_VERTICAL_OFFSET := 0.05
-const HEAD_LEAN_FORWARD_OFFSET := -0.15
+const HEAD_LEAN_FORWARD_OFFSET := -0.40
+#endregion
+
+#region camera movement constants
+
+const CAMERA_PITCH_MULTIPLIER := 0.2
+const CAMERA_YAW_MULTIPLIER := 0.1
+const CAMERA_POSITION_INTERPOLATION_SPEED := 6.0
+const CAMERA_VERTICAL_OFFSET := 0.30
+const CAMERA_DEPTH_OFFSET := -0.15
+
+@export var camera_movement_enabled : bool = true
+#endregion
 
 @onready var head: MeshInstance3D = %HeadPlaceholder
+@onready var camera: Camera3D = %Camera
 
 var _head_rest_position: Vector3
 var _target_position: Vector3
 
+var _camera_rest_position: Vector3
+var _camera_target_position: Vector3
+var _camera_rest_rotation: Vector3
+
 func _ready() -> void:
 	_head_rest_position = head.position
+	_camera_rest_position = camera.position
+	_camera_target_position = _camera_rest_position
+	_camera_rest_rotation = camera.rotation
 
 func _process(delta: float) -> void:
 	head.position = head.position.lerp(_target_position, delta * HEAD_POSITION_INTERPOLATION_SPEED)
+	if camera_movement_enabled :
+		camera.position = camera.position.lerp(
+			_camera_target_position,
+			delta * CAMERA_POSITION_INTERPOLATION_SPEED
+			)
 
 func set_head_color(color: Color) -> void:
 	var material := head.get_active_material(0).duplicate()
@@ -38,10 +66,21 @@ func set_head_rotation(pitch: float, yaw: float) -> void:
 		)
 	head.rotation.x = -head_pitch
 	head.rotation.y = head_yaw
-	
 	var lean := head_pitch / MAX_HEAD_PITCH
 	_target_position = _head_rest_position + Vector3(
 		0.0,
 		lean * HEAD_LEAN_VERTICAL_OFFSET,
 		lean * HEAD_LEAN_FORWARD_OFFSET
+		)
+		
+	camera.rotation = _camera_rest_rotation + Vector3(
+		-head_pitch * CAMERA_PITCH_MULTIPLIER,
+		head_yaw * CAMERA_YAW_MULTIPLIER,
+		0.0
+		)
+
+	_camera_target_position = _camera_rest_position + Vector3(
+		0.0,
+		lean * CAMERA_VERTICAL_OFFSET,
+		lean * CAMERA_DEPTH_OFFSET
 		)
