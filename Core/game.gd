@@ -117,6 +117,7 @@ var _active_game_over_screen : Control
 func init_game_over(result : StageResult) -> void:
 	assert(not _active_game_over_screen)
 	combo_manager.decay_started = false
+	combo_manager.reset_combo()
 	stage_result = result
 	_active_game_over_screen = game_over_scene.instantiate() as Control
 	canvas_manager.push_content_to_layer(JamUtils.layer_ui_menu, _active_game_over_screen)
