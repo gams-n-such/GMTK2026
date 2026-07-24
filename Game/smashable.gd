@@ -8,9 +8,12 @@ extends Node3D
 
 signal destroyed(target: Smashable)
 var _destroyed : bool = false
+var _view : Node3D = null
+
+@onready var placeholder_mesh: MeshInstance3D = $PlaceholderMesh
 
 func _ready() -> void:
-	pass
+	_view = placeholder_mesh
 
 func _process(delta: float) -> void:
 	pass
@@ -48,4 +51,5 @@ func _on_health_value_changed(attribute: Attribute, new_value: float, old_value:
 		#print("Smashable HP left: %f" % [new_value])
 		if new_value <= 0.0:
 			_destroyed = true
+			_view.visible = false
 			destroyed.emit(self)
