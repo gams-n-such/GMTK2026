@@ -1,14 +1,18 @@
 extends Control
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
-	pass # Replace with function body.
+	Game.player.stun_status_changed.connect(_on_player_stunned)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
 func set_face_texture(texture: Texture2D):
 	var face_display := get_node("%FaceDisplay") as TextureRect
 	face_display.texture = texture
+
+@onready var stun_screen: Control = %StunScreen
+
+func _on_player_stunned(stunned: bool) -> void:
+	stun_screen.visible = stunned

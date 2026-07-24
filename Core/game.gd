@@ -43,6 +43,7 @@ var level_config : SmashLevelConfig:
 
 @export var player_state_scene : PackedScene = null
 var player_state : SmashPlayerState = null
+var player : SmashPlayer = null
 
 func reset_run() -> void:
 	_player_stats_override = null

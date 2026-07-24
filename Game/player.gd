@@ -6,12 +6,15 @@ var player_state: SmashPlayerState:
 		return Game.player_state
 
 signal hit(magnitude: float)
+signal stun_status_changed(stunned: bool)
 
 func _ready() -> void:
+	Game.player = self
 	assert(player_state)
+	player_state.health.value_changed.connect(_on_health_value_changed)
 	_show_hud()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	neck_position = remap(0.0, MAX_TILT, MIN_TILT, max_neck_position, min_neck_position)
+	neck_position = starting_neck_position
 	neck_strike_amplitude = neck_position
 
 func _exit_tree() -> void:
@@ -43,19 +46,29 @@ func _hide_hud() -> void:
 
 #region Input
 
+var _last_mouse_direction: int = 0
+
 func _input(event: InputEvent) -> void:
 	pass
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
 		Game.open_pause_menu()
+	if event.is_action_pressed("interact"):
+		stun()
 	
 	# Mouse input
 	_mouse_moving = event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED
 	if _mouse_moving:
 		var mouse_event = event as InputEventMouseMotion
-		_input_yaw = (-1.0 if flip_mouse_x else 1.0) * mouse_event.relative.x * mouse_sensitivity
-		_input_pitch = (1.0 if flip_mouse_y else -1.0) * mouse_event.relative.y * mouse_sensitivity
+		if stunned:
+			var direction: int = signi(event.relative.x)
+			if direction != _last_mouse_direction:
+				shake_head()
+			_last_mouse_direction = direction
+			_input_yaw = (-1.0 if flip_mouse_x else 1.0) * mouse_event.relative.x * mouse_sensitivity
+		else:
+			_input_pitch = (1.0 if flip_mouse_y else -1.0) * mouse_event.relative.y * mouse_sensitivity
 
 
 const MIN_TILT = deg_to_rad(-90)
@@ -79,6 +92,9 @@ var _player_rotation : Vector3
 var min_neck_position : float = 0.0
 @export var max_neck_position : float = 100.0
 var neck_position : float = 0.0
+var starting_neck_position : float:
+	get:
+		return remap(0.0, MAX_TILT, MIN_TILT, max_neck_position, min_neck_position)
 var neck_rise_progress : float:
 	get:
 		return remap(neck_position, min_neck_position, max_neck_position, 0.0, 1.0)
@@ -138,7 +154,7 @@ func _consume_mouse_input(delta : float) -> void:
 @onready var camera_pivot: Node3D = %CameraPivot
 @onready var camera: Camera3D = %Camera3D
 
-@export var allow_turning : bool = false
+@export var allow_turning : bool = true
 
 var _camera_rotation : Vector3
 
@@ -152,5 +168,49 @@ func _process_camera(delta : float) -> void:
 
 	face_renderer.set_head_rotation(_camera_rotation.x, _player_rotation.y)
 
+
+#endregion
+
+#region Stun
+
+var stunned : bool = false
+var stun_recovery : float = 0.0
+@export var stun_recovery_target : float = 100.0
+@export var stun_shakes_to_recover : int = 15
+var stun_recovery_per_shake : float:
+	get:
+		return (stun_recovery_target + 1.0) / stun_shakes_to_recover
+var health_recovery_per_shake : float:
+	get:
+		return player_state.max_health.value / stun_shakes_to_recover
+
+func stun() -> void:
+	if stunned:
+		return
+	var tween := get_tree().create_tween()
+	tween.tween_property(self, "neck_position", starting_neck_position, 0.7)
+	stunned = true
+	stun_recovery = 0
+	stun_status_changed.emit(stunned)
+
+func unstun() -> void:
+	if not stunned:
+		return
+	var tween := get_tree().create_tween()
+	tween.tween_property(self, "_mouse_rotation", Vector3.ZERO, .6)
+	stunned = false
+	stun_status_changed.emit(stunned)
+
+func shake_head() -> void:
+	if not stunned:
+		return
+	player_state.health.add(health_recovery_per_shake)
+	stun_recovery += stun_recovery_per_shake
+	if stun_recovery >= stun_recovery_target:
+		unstun()
+
+func _on_health_value_changed(attribute: Attribute, new_value: float, old_value: float) -> void:
+	if new_value <= 0.0 and not stunned:
+		stun()
 
 #endregion
