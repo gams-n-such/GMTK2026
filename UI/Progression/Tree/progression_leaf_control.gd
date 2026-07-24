@@ -1,14 +1,14 @@
-class_name Item
+class_name ProgressionLeafControl
 extends Control
 
 @export var icon: Texture2D
-@export var dependent_on: Item
+@export var dependent_on: ProgressionLeafControl
 @export var cost: int
 @export var modifiers: Array[ModifierInfo] = []
 
 var is_purchased: bool
 
-signal trying_to_purchase(source: Item)
+signal trying_to_purchase(source: ProgressionLeafControl)
 
 func _ready() -> void:
 	%Icon.texture = icon

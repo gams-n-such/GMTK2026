@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://e763at52kugs"]
+
+[ext_resource type="PackedScene" uid="uid://dos71h7hq75v" path="res://UI/Progression/Tree/progression_leaf_control.tscn" id="1_gnoyo"]
+[ext_resource type="Script" uid="uid://c1r1eurr3exow" path="res://UI/Progression/Tree/progression_tree.gd" id="1_j3aog"]
+[ext_resource type="Texture2D" uid="uid://bqvnpofm0e0sn" path="res://UI/Progression/TestAssets/headshot.svg" id="2_j3aog"]
+[ext_resource type="Script" uid="uid://bxmvh0pqrtobl" path="res://UI/Progression/Tree/modifier_info.gd" id="3_4kndf"]
+[ext_resource type="Script" uid="uid://befawv230b71n" path="res://Gameplay/Atributes/attribute_mod_info.gd" id="4_eydlh"]
+[ext_resource type="Texture2D" uid="uid://dmsuhg00nyqe0" path="res://UI/Progression/TestAssets/pummeled.svg" id="5_nagjt"]
+[ext_resource type="Texture2D" uid="uid://ogdxwfpw82iq" path="res://UI/Progression/TestAssets/ninja-head.svg" id="6_3omol"]
+
+[sub_resource type="Resource" id="Resource_wj56m"]
+script = ExtResource("4_eydlh")
+mod_type = 1
+mod_value = 20.0
+metadata/_custom_type_script = "uid://befawv230b71n"
+
+[sub_resource type="Resource" id="Resource_c6qw7"]
+script = ExtResource("3_4kndf")
+target = 1
+mod_info = SubResource("Resource_wj56m")
+metadata/_custom_type_script = "uid://bxmvh0pqrtobl"
+
+[sub_resource type="Resource" id="Resource_ry0np"]
+script = ExtResource("4_eydlh")
+mod_value = 120.0
+metadata/_custom_type_script = "uid://befawv230b71n"
+
+[sub_resource type="Resource" id="Resource_qdwcu"]
+script = ExtResource("3_4kndf")
+target = 4
+mod_info = SubResource("Resource_ry0np")
+metadata/_custom_type_script = "uid://bxmvh0pqrtobl"
+
+[sub_resource type="Resource" id="Resource_xdk4a"]
+script = ExtResource("4_eydlh")
+mod_value = 200.0
+metadata/_custom_type_script = "uid://befawv230b71n"
+
+[sub_resource type="Resource" id="Resource_3yhoo"]
+script = ExtResource("3_4kndf")
+target = 3
+mod_info = SubResource("Resource_xdk4a")
+metadata/_custom_type_script = "uid://bxmvh0pqrtobl"
+
+[node name="ProgressionTree" type="Control" unique_id=1105908104]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+script = ExtResource("1_j3aog")
+
+[node name="DamageIncrease" parent="." unique_id=790196962 instance=ExtResource("1_gnoyo")]
+layout_mode = 1
+offset_left = 216.0
+offset_top = 178.0
+offset_right = -936.0
+offset_bottom = -210.0
+icon = ExtResource("2_j3aog")
+cost = 20
+modifiers = Array[ExtResource("3_4kndf")]([SubResource("Resource_c6qw7")])
+
+[node name="SpeedIncrease" parent="." unique_id=315003213 node_paths=PackedStringArray("dependent_on") instance=ExtResource("1_gnoyo")]
+layout_mode = 1
+offset_left = 674.0
+offset_top = 316.0
+offset_right = -478.0
+offset_bottom = -72.0
+icon = ExtResource("6_3omol")
+dependent_on = NodePath("../DamageIncrease")
+cost = 30
+modifiers = Array[ExtResource("3_4kndf")]([SubResource("Resource_qdwcu")])
+
+[node name="HealthIncrease" parent="." unique_id=1821188247 node_paths=PackedStringArray("dependent_on") instance=ExtResource("1_gnoyo")]
+layout_mode = 1
+offset_left = 532.0
+offset_top = 65.0
+offset_right = -620.0
+offset_bottom = -323.0
+icon = ExtResource("5_nagjt")
+dependent_on = NodePath("../DamageIncrease")
+cost = 30
+modifiers = Array[ExtResource("3_4kndf")]([SubResource("Resource_3yhoo")])

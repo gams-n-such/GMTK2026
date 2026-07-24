@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dos71h7hq75v"]
 
-[ext_resource type="Script" uid="uid://ddxy5nv6v4wdt" path="res://UI/Progression/item.gd" id="1_c5qqn"]
+[ext_resource type="Script" uid="uid://ddxy5nv6v4wdt" path="res://UI/Progression/Tree/progression_leaf_control.gd" id="1_scoiu"]
 
 [node name="Item" type="Control" unique_id=790196962]
 custom_minimum_size = Vector2(128, 128)
@@ -12,7 +12,7 @@ offset_right = -1152.0
 offset_bottom = -592.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_c5qqn")
+script = ExtResource("1_scoiu")
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="." unique_id=1862116097]
 layout_mode = 1
