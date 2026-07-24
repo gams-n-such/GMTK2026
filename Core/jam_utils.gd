@@ -68,6 +68,28 @@ static func get_closest_node_3d(point : Vector3, candidates : Array[Node3D]) -> 
 
 #endregion
 
+#region Attributes
+
+## Only searches direct children
+static func get_attributes(target : Node) -> Array[Attribute]:
+	var result : Array[Attribute] = []
+	if target:
+		for node in target.get_children():
+			if node is Attribute:
+				result.append(node as Attribute)
+	return result
+
+## Returns first attribute found that matches given tag
+static func find_tagged_attribute(target : Node, tag : Attribute.Tag) -> Attribute:
+	# TODO: optimize
+	var attributes := get_attributes(target)
+	for attribute in attributes:
+		if attribute.tag == tag:
+			return attribute
+	return null
+
+#endregion
+
 #region Groups
 
 static func get_shared_groups(node_a : Node, node_b : Node) -> Array[StringName]:
