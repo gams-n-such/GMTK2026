@@ -59,3 +59,15 @@ func _on_health_value_changed(attribute: Attribute, new_value: float, old_value:
 	if new_value <= 0.0:
 		#Game.loose()
 		pass
+
+func upgrade_attribute(attribute: Attribute.Tag, new_level: int) -> void:
+	var current_level := progression_data.get_attribute_level(attribute)
+	assert(current_level < new_level)
+	var target_progression := progression_config.get_progression_for_attribute(attribute)
+	assert(new_level <= target_progression.max_level)
+	var target_attribute := JamUtils.find_tagged_attribute(self, attribute) as DynamicAttribute
+	assert(target_attribute)
+	while current_level < new_level:
+		current_level += 1
+		target_attribute.add_modifier(target_progression.levels[current_level].modificator)
+	progression_data.attribute_levels.set(attribute, new_level)

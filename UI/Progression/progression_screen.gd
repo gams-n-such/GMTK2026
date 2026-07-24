@@ -20,7 +20,7 @@ var points_available : int:
 		return int(points_attribute.value)
 
 func _ready() -> void:
-	point_label.text = "Points available: %d" % [points_available]
+	update_points()
 	tree.purchase_requested.connect(_on_leaf_purchase_requested)
 
 func _on_leaf_purchase_requested(leaf: ProgressionLeafControl) -> void:
@@ -46,3 +46,19 @@ func _on_leaf_purchase_requested(leaf: ProgressionLeafControl) -> void:
 
 func _on_back_pressed() -> void:
 	Game.load_gameplay_scene()
+
+func _on_attribute_upgraded(attribute: Attribute.Tag) -> void:
+	update_info()
+
+@onready var health_upgrader: AttributeLevelUpgrader = %HealthUpgrader
+@onready var damage_upgrader: AttributeLevelUpgrader = %DamageUpgrader
+@onready var timer_upgrader: AttributeLevelUpgrader = %TimerUpgrader
+
+func update_points() -> void:
+	point_label.text = "Points available: %d" % [points_available]
+
+func update_info() -> void:
+	update_points()
+	health_upgrader.update_info()
+	damage_upgrader.update_info()
+	timer_upgrader.update_info()

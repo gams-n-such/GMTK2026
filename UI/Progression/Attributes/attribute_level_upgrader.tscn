@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://bi4geqtwdtgpq"]
+
+[ext_resource type="Script" uid="uid://brh65nroswiho" path="res://UI/Progression/Attributes/attribute_level_upgrader.gd" id="1_dvwhr"]
+
+[node name="AttributeLevelUpgrader" type="HBoxContainer" unique_id=81163404]
+offset_right = 42.0
+offset_bottom = 58.0
+script = ExtResource("1_dvwhr")
+
+[node name="LevelLabel" type="Label" parent="." unique_id=1948524870]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=367044391]
+layout_mode = 2
+
+[node name="UpgradeButton" type="Button" parent="VBoxContainer" unique_id=339700665]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+text = "+"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=192364650]
+layout_mode = 2
+
+[node name="CostLabel" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=388032457]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "100"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="VBoxContainer/UpgradeButton" to="." method="_on_upgrade_button_pressed"]
