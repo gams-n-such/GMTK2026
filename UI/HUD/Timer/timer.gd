@@ -23,5 +23,5 @@ func _on_time_changed(remaining: float) -> void:
 
 func _update_display(seconds: float) -> void:
 	var minutes := int(seconds) / 60 as int
-	var secs := int(seconds) % 60 as int
+	var secs := int(ceilf(seconds)) % 60 as int
 	text = "%02d:%02d" % [minutes, secs]
