@@ -5,7 +5,7 @@ extends Node
 @export_flags_3d_render var editor_camera_layers
 
 func _ready() -> void:
-	pass
+	reset_run()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_exit"):
@@ -49,6 +49,7 @@ func reset_run() -> void:
 	if player_state:
 		player_state.queue_free()
 	player_state = null
+	init_run()
 
 func init_run() -> void:
 	player_state = player_state_scene.instantiate() as SmashPlayerState
