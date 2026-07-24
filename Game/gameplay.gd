@@ -37,10 +37,10 @@ func _process(delta: float) -> void:
 
 #region Smashing
 
-func _on_player_hit(magnitude: float) -> void:
-	apply_single_hit(magnitude)
+func _on_player_hit(velocity: float, amplitude: float) -> void:
+	apply_single_hit(velocity, amplitude)
 
-func apply_single_hit(magnitude: float) -> void:
+func apply_single_hit(velocity: float, amplitude: float) -> void:
 	player.face_renderer.set_head_color(Color.YELLOW)
 	Game.combo_manager.add_combo()
 	if player_state == null or smashables.is_empty():

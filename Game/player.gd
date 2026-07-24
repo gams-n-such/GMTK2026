@@ -5,7 +5,7 @@ var player_state: SmashPlayerState:
 	get:
 		return Game.player_state
 
-signal hit(magnitude: float)
+signal hit(velocity: float, amplitude: float)
 signal stun_status_changed(stunned: bool)
 
 func _ready() -> void:
@@ -135,7 +135,7 @@ func _consume_mouse_input(delta : float) -> void:
 		_neck_acceleration = 0.0
 		if neck_pos_unclamped < min_neck_position and neck_strike_amplitude > 0.0:
 			neck_strike_amplitude = 0.0
-			hit.emit(_neck_velocity)
+			hit.emit(_neck_velocity, neck_strike_amplitude)
 	
 	if allow_turning:
 		_player_rotation = Vector3(0, _mouse_rotation.y, 0)
