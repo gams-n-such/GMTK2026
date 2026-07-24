@@ -41,15 +41,14 @@ func get_current_level() -> int:
 func get_next_level() -> int:
 	return get_current_level() + 1
 
-func can_upgrade() -> bool:
+func is_max_level() -> bool:
 	var target_progression := progression_config.get_progression_for_attribute(target_attribute)
-	var is_max_level := get_current_level() >= target_progression.max_level
-	var enough_points := points_available >= get_next_level_cost()
-	return not is_max_level and enough_points
+	return get_current_level() >= target_progression.max_level
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func can_upgrade() -> bool:
+	var max_level := is_max_level()
+	var enough_points := points_available >= get_next_level_cost()
+	return not max_level and enough_points
 
 func get_next_level_cost() -> int:
 	var target_progression := progression_config.get_progression_for_attribute(target_attribute)
@@ -83,4 +82,7 @@ func get_level_text() -> String:
 func update_info() -> void:
 	level_label.text = get_level_text()
 	upgrade_button.disabled = not can_upgrade()
-	cost_label.text = str(get_next_level_cost())
+	if is_max_level():
+		cost_label.text = "MAX"
+	else:
+		cost_label.text = str(get_next_level_cost())
