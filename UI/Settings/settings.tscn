@@ -250,7 +250,6 @@ theme_override_styles/normal = ExtResource("3_yuh4y")
 theme_override_styles/hover = ExtResource("4_eeom4")
 text = "Back"
 script = ExtResource("3_6ukun")
-hide_in_web_build = true
 
 [connection signal="drag_ended" from="VBoxContainer/HBoxContainer/SensitivitySlider" to="." method="_on_sensitivity_slider_drag_ended"]
 [connection signal="toggled" from="VBoxContainer/HBoxContainer2/FlipXButton" to="." method="_on_flip_x_button_toggled"]

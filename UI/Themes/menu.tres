@@ -7,3 +7,5 @@ Button/font_sizes/font_size = 32
 Button/fonts/font = ExtResource("1_jjv7n")
 Label/font_sizes/font_size = 24
 Label/fonts/font = ExtResource("1_jjv7n")
+RichTextLabel/font_sizes/normal_font_size = 24
+RichTextLabel/fonts/normal_font = ExtResource("1_jjv7n")
